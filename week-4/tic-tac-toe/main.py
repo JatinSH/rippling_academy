@@ -1,9 +1,11 @@
 import os
 from game_board import game_board
 from game_start import game_start
+from utilities import utilities
 
 initial_board = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
 game = game_board(initial_board)
+utility = utilities()
 [player1, player2] = game_start()
 current_player = player1
 
@@ -17,12 +19,12 @@ while(True):
     x_position = int(user_input[0])
     y_position = int(user_input[2])
 
-    if(not game.update_grid(x_position, y_position, current_player.player_symbol)):
+    if(not utility.update_grid(game.tic_tac_toe_grid, x_position, y_position, current_player.player_symbol)):
         os.system('clear')
         print("The position is already filled!!")
         continue
 
-    if(game.has_game_ended()):
+    if(utility.has_game_ended(game.tic_tac_toe_grid)):
         os.system('clear')
         game.display_grid()
         print("\n", current_player.player_name, " WINS!!")
