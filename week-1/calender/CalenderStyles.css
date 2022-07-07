@@ -1,0 +1,72 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.container{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.calender{
+    display: grid;
+    width: 550px;
+    height: 350px;
+    gap: 1px;
+    grid-template-rows: repeat(8,auto);
+}
+
+.calender-first-row{
+    display: flex;
+    justify-content: space-between;
+    gap: 1px;
+}
+
+.calender-row{
+    display: grid;
+    align-items: center;
+    gap: 1px;
+    grid-template-columns: repeat(8,1fr);
+}
+
+.month-year{
+    
+    font-size: 50px;
+    color: rgb(19, 19, 138,0.8);
+}
+.day,.date,.week{
+    height: 100%;
+    padding: 20%;
+    text-align: center;
+    align-self: center;
+    border-radius: 5%;
+}
+
+.button{
+    justify-content:space-between;
+    align-self: end;
+}
+
+.previous,.next{
+    font-size: 25px;
+    background-color: rgb(17, 109, 189,0.8);
+}
+.previous:hover,.next:hover{
+    background-color: rgb(17, 109, 189);
+}
+
+.week,.day{
+    background-color: rgb(17, 109, 189,0.8);
+}
+
+.week{
+    color: whitesmoke;
+}
+.date:hover{
+    border: 1px solid;
+}
+
