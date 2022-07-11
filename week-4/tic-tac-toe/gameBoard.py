@@ -1,4 +1,4 @@
-class game_board:
+class gameBoard:
 
     def __init__(self, tic_tac_toe_grid):
         self.tic_tac_toe_grid = tic_tac_toe_grid

@@ -3,7 +3,7 @@ from player import player
 
 def game_start():
 
-    print("WELCOME TO THE SQUID GAME'S : TIC TAC TOE!!\n")
+    print("WELCOME TO TIC TAC TOE!!\n")
 
     print("Player 1, enter your name: ", end="")
     player1_name = input()
