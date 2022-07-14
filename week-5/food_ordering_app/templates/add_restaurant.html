@@ -1,0 +1,20 @@
+<h1>
+    Add Restaurant Page
+</h1>
+<div>
+
+
+    <form method="post">
+        {% csrf_token %}
+        <label>Enter restaurant name : </label>
+        <input type="text" name="restaurant_name"><br><br>
+        <label>Enter restaurant address : </label>
+        <input type="text" name="restaurant_address"><br><br>
+        <input type="checkbox" name="cuisines" value="north_indian"> <label>North Indian</label>
+        <input type="checkbox" name="cuisines" value="south_indian"> <label>South Indian</label>
+        <input type="checkbox" name="cuisines" value="chinese"> <label>Chinese</label>
+        <input type="checkbox" name="cuisines" value="italian"> <label>Italian</label>
+        <input type="checkbox" name="cuisines" value="continental"> <label>Continental</label>
+        <input type="submit">
+    </form>
+</div>

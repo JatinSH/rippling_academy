@@ -1,0 +1,15 @@
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="restaurant_name">
+    <input type="submit">
+</form>
+
+{% for restaurant in restaurants %}
+    <div>
+        <div>{{ restaurant.id }}</div>
+        <div>{{ restaurant.restaurant_name }}</div>
+        <div>{{ restaurant.restaurant_address }}</div>
+        <div>{{ restaurant.restaurant_cuisines }}</div>
+        <button onclick={{  }}>Delete Restaurant</button>
+    </div>
+{% endfor %}
