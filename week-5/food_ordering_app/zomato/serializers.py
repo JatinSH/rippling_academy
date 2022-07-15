@@ -1,5 +1,5 @@
 from rest_framework_mongoengine import serializers
-from .models import Restaurant, FoodItems
+from .models import Restaurant, FoodItems, Order
 
 
 class RestaurantSerializer(serializers.DocumentSerializer):
@@ -13,3 +13,8 @@ class FoodItemsSerializer(serializers.DocumentSerializer):
         model = FoodItems
         fields = '__all__'
 
+
+class OrderSerializer(serializers.DocumentSerializer):
+    class Meta:
+        model = Order
+        fields = '__all__'

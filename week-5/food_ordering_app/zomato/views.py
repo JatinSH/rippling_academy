@@ -1,18 +1,10 @@
-from http.client import HTTPResponse
-from unicodedata import name
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from zomato.models import Restaurant
+from mongoengine import Q
+
+from zomato.models import Restaurant, FoodItems, Order
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import RestaurantSerializer
+from .serializers import RestaurantSerializer, FoodItemsSerializer, OrderSerializer
 
-
-# Create your views here.
-
-
-# def home(request):
-#     return render(request, 'home.html', {'name': 'jatin'})
 
 @api_view(['GET'])
 def home(request):
@@ -36,10 +28,8 @@ def restaurant_detail(request, pk):
 @api_view(['POST'])
 def add_restaurant(request):
     serializer = RestaurantSerializer(data=request.data)
-    print(request.data)
     if serializer.is_valid():
         serializer.save()
-
     return Response(serializer.data)
 
 
@@ -47,48 +37,66 @@ def add_restaurant(request):
 def delete_restaurant(request, pk):
     restaurant = Restaurant.objects(id=pk)[0]
     restaurant.delete()
-    return  Response("Restaurant Deleted!")
-# def add_restaurant(request):
-#     if request.method == "GET":
-#         return render(request, 'add_restaurant.html')
-#     else:
-#         restaurant = Restaurant()
-#         restaurant.restaurant_name = request.POST['restaurant_name']
-#         restaurant.restaurant_address = request.POST['restaurant_address']
-#         restaurant.restaurant_cuisines = request.POST.getlist('cuisines')
-#         restaurant.save()
-#         return redirect('/')
-#
-#
-# def select_delete_restaurant(request):
-#     if request.method == "GET":
-#         return render(request, 'select_delete_restaurant.html')
-#     else:
-#         restaurant_name = request.POST['restaurant_name']
-#         restaurants = Restaurant.objects(restaurant_name__contains=restaurant_name)
-#         return render(request, 'select_delete_restaurant.html', {"restaurants": restaurants})
-#
-#
-# def delete_restaurant(request):
-#     restaurant_id = request.POST['restaurant.id']
-#     restaurant_to_delete = Restaurant.objects(id=restaurant_id)
-#     restaurant_to_delete.delete()
-#     return HttpResponse("Restaurant Deleted!!")
-#
-#
-# def select_manage_restaurant(request):
-#     if request.method == "GET":
-#         return render(request, 'select_manage_restaurant.html')
-#     else:
-#         restaurant_name = request.POST['restaurant_name']
-#         restaurants = Restaurant.objects(restaurant_name__contains=restaurant_name)
-#         return render(request, 'select_manage_restaurant.html', {"restaurants": restaurants})
-#
-#
-# def manage_restaurant(request):
-#     restaurant_id = request.POST['restaurant.id']
-#     restaurant_to_manage = Restaurant.objects(id=restaurant_id)
-#
-#
-# def order(request):
-#     return render(request, 'order.html')
+    return Response("Restaurant Deleted!")
+
+
+@api_view(['GET'])
+def menu(request):
+    food_items = FoodItems.objects
+    serializer = FoodItemsSerializer(food_items, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+def add_restaurant_menu(request):
+    serializer = FoodItemsSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+def update_restaurant_menu(request, pk, pk2):
+    restaurant = Restaurant.objects(id=pk)[0]
+    food_item = FoodItems.objects(Q(restaurant=restaurant) & Q(id=pk2))[0]
+
+    serializer = FoodItemsSerializer(instance=food_item, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def filter_menu_by_cuisine(request, cuisine):
+    food_items = FoodItems.objects(cuisine__icontains=cuisine)
+    serializer = FoodItemsSerializer(food_items, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def filter_menu_by_restaurant(request, pk):
+    food_items = FoodItems.objects(restaurant=pk)
+    serializer = FoodItemsSerializer(food_items, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def filter_menu_by_name(request, name):
+    print(name)
+    food_items = FoodItems.objects(name__icontains=name)
+    serializer = FoodItemsSerializer(food_items, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET', 'POST'])
+def orders(request):
+    if request.method == 'GET':
+        all_orders = Order.objects
+        serializer = OrderSerializer(all_orders, many=True)
+        return Response(serializer.data)
+    else:
+        serializer = OrderSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+        return Response(serializer.data)

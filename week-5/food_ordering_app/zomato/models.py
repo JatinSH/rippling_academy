@@ -16,5 +16,11 @@ class FoodItems(Document):
     image = StringField()
     veg = BooleanField()
     quantity = IntField()
-    available = DateTimeField()
-    restaurant = ReferenceField(Restaurant)
+    cuisine = StringField()
+    available = StringField()
+    price = FloatField()
+    restaurant = ReferenceField(Restaurant, reverse_delete_rule=CASCADE)
+
+
+class Order(Document):
+    item = ReferenceField(FoodItems)
