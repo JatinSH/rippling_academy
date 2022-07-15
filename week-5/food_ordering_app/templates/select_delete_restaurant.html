@@ -10,6 +10,9 @@
         <div>{{ restaurant.restaurant_name }}</div>
         <div>{{ restaurant.restaurant_address }}</div>
         <div>{{ restaurant.restaurant_cuisines }}</div>
-        <button onclick={{  }}>Delete Restaurant</button>
+        <form action="delete_restaurant" method="post">
+            {% csrf_token %}
+            <input type="submit" name="restaurant.id" value={{ restaurant.id }}>
+        </form>
     </div>
 {% endfor %}
